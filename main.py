@@ -1,5 +1,4 @@
-import populartimes
-import googlemaps
+
 import datetime
 import requests
 import time
@@ -16,7 +15,7 @@ def fetch_places(query, page_token=""):
     response = requests.get(url).json()
     return response
 
-# Function to fetch place details (opening hours, popular times)
+# Function to fetch place details (opening hours etc)
 def get_place_details(place_id):
     url = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={API_KEY}"
     response = requests.get(url).json()
@@ -31,7 +30,6 @@ def process_area(area_name):
         "Latitude",
         "Longitude",
         "Opening Hours",
-        "Popular Times",
         "Secondary Opening Hours",
         "Open Now",
         "Current Opening Hours",
@@ -45,16 +43,6 @@ def process_area(area_name):
         for place in data["results"]:
             try:
                 details = get_place_details(place["place_id"])
-
-                # Fetch popular times
-                popular_times_data = "N/A"
-                # Get popular times using the populartimes library
-                try:
-                    popular_times = populartimes.get_id(API_KEY, place["place_id"])
-                    if popular_times:
-                        popular_times_data = popular_times['populartimes']
-                except Exception as e:
-                    print(f"Error getting popular times: {e}")
 
                 # Extract opening hours
                 opening_hours = "N/A"
@@ -102,7 +90,6 @@ def process_area(area_name):
                     str(place["geometry"]["location"]["lat"]),
                     str(place["geometry"]["location"]["lng"]),
                     opening_hours,
-                    popular_times_data,
                     secondary_opening_hours,
                     open_now,
                     current_opening_hours,
