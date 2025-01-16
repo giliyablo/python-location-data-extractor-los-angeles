@@ -1,4 +1,9 @@
+
+import populartimes
+import googlemaps
+import datetime
 import requests
+import time
 import os
 
 # API key from the environment variable
@@ -44,11 +49,13 @@ def process_area(area_name):
 
                 # Fetch popular times
                 popular_times_data = "N/A"
+                # Get popular times using the populartimes library
                 try:
-                    popular_times_data = populartimes.full_week(place["place_id"])
-                    print("🚀", popular_times_data)
+                    popular_times = populartimes.get_id(API_KEY, place["place_id"])
+                    if popular_times:
+                        popular_times_data = popular_times['populartimes']
                 except Exception as e:
-                    print(f"Error fetching popular times for {place['name']}:", e)
+                    print(f"Error getting popular times: {e}")
 
                 # Extract opening hours
                 opening_hours = "N/A"
