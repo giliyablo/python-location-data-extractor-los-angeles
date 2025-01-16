@@ -1,4 +1,3 @@
-
 import populartimes
 import googlemaps
 import datetime
@@ -100,8 +99,8 @@ def process_area(area_name):
                 csv_data.append([
                     place["name"],
                     place["formatted_address"],
-                    place["geometry"]["location"]["lat"],
-                    place["geometry"]["location"]["lng"],
+                    str(place["geometry"]["location"]["lat"]),
+                    str(place["geometry"]["location"]["lng"]),
                     opening_hours,
                     popular_times_data,
                     secondary_opening_hours,
